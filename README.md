@@ -50,7 +50,7 @@ Prueba/
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone <url-del-repositorio>
+git clone <https://github.com/MateoPedroza/Prueba_Tecnica>
 cd Prueba
 ```
 
