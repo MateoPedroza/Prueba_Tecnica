@@ -11,6 +11,7 @@ En este archivo defino:
 """
 
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
 from .models import Task
 
@@ -31,12 +32,15 @@ class RegisterSerializer(serializers.ModelSerializer):
     """
     Serializer customizado para el registro de usuarios.
     
-    Implemento validación de contraseña:
-    - Requiero que password y password_confirm sean idénticas
-    - Hago hashing automático con create_user()
-    
-    Esto previene errores de tipeo al registrarse.
+    - Valida que el email sea único mediante UniqueValidator.
+    - Comprueba que password y password_confirm coincidan.
+    - Hashea la contraseña usando create_user().
     """
+    email = serializers.EmailField(
+        required=True,
+        validators=[UniqueValidator(queryset=User.objects.all())],
+        help_text="Correo electrónico único del usuario"
+    )
     password = serializers.CharField(
         write_only=True,
         required=True,
