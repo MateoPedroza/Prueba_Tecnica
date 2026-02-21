@@ -36,3 +36,17 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Environment variables
+
+The frontend reads its backend URL from `VITE_API_URL`.
+Create a `.env` file at the root of the frontend directory or set the
+variable in your deployment platform (Vercel).
+
+An example file `.env.example` is included in the repository.
+
+```env
+VITE_API_URL=https://<tu-app>.up.railway.app/api/
+```
+
+Don't commit your actual `.env` file; it's ignored via `.gitignore`.

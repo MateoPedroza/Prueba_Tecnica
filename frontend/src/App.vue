@@ -175,7 +175,9 @@
 import { ref, onMounted } from 'vue'
 
 // URL base de la API del backend
-const apiUrl = 'http://127.0.0.1:8000/api'
+// Se lee desde la variable de entorno VITE_API_URL proporcionada
+// por Vercel/ambientes de producción; si no existe, uso localhost.
+const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'
 
 // =====================
 // Estado de autenticación

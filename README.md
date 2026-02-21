@@ -151,6 +151,41 @@ El frontend estará disponible en: `http://localhost:5173/`
 
 ## 🔑 Credenciales de Prueba
 
+---
+
+## 🚢 Despliegue en producción
+
+El backend ya está desplegado en Railway. La URL resultante es
+algo como `https://<tu-app>.up.railway.app/`.
+
+Para que el frontend pueda comunicarse con él y quedar accesible
+públicamente, se utiliza Vercel:
+
+1. **Configurar base del API en el frontend**
+   - Se lee desde la variable `VITE_API_URL`.
+   - En desarrollo el valor por defecto es
+     `http://127.0.0.1:8000/api`.
+
+2. **Agregar archivo de ejemplo en el frontend**
+   - Copia `frontend/.env.example` (creado en el repo) a
+     `frontend/.env` y ajusta la URL (`VITE_API_URL`).
+   - Nunca subas `.env` al repositorio; está ignorado por
+     `.gitignore`.
+
+3. **Configurar variables de entorno del backend**
+   - En Railway añade/actualiza `CORS_ALLOWED_ORIGINS` para incluir
+     la URL de Vercel (por ejemplo
+     `https://your-app.vercel.app`). Puedes usar comas para
+     varias orígenes.
+   - También actualiza `ALLOWED_HOSTS` si quieres restringir más los
+     hosts (aunque `pruebatecnica-production-f2dc.up.railway.app`
+     ya está ahí de antes).
+
+3. **Desplegar en Vercel** (pasos detallados más abajo).
+
+
+## 📡 API REST - Endpoints
+
 El proyecto incluye dos usuarios de prueba preconfigurados:
 
 ### Usuario 1
