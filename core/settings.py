@@ -16,6 +16,7 @@ Este archivo contiene la configuración central del proyecto, incluyendo:
 from pathlib import Path
 from decouple import config, Csv
 from datetime import timedelta
+import dj_database_url
 
 # Construyo la ruta base del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,21 +76,33 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
-# Configuración de Base de Datos PostgreSQL NEON
-# Uso variables de entorno para no hardcodear credenciales
-# La conexión requiere SSL requerido por seguridad
-DATABASES = {
-    'default': {
-        'ENGINE': config('DB_ENGINE', default='django.db.backends.postgresql'),
-        'NAME': config('DB_NAME', default='neondb'),
-        'USER': config('DB_USER', default='neondb_owner'),
-        'PASSWORD': config('DB_PASSWORD', default=''),
-        'HOST': config('DB_HOST', default='ep-crimson-leaf-aiy29wx1-pooler.c-4.us-east-1.aws.neon.tech'),
-        'PORT': config('DB_PORT', default='5432'),
-        'OPTIONS': {
-            'sslmode': 'require',        # Requiere conexión SSL
-            'channel_binding': 'require', # Binding de canal requerido
-        },
+# Configuración inteligente de Base de Datos
+# En Railway: usa DATABASE_URL (proporcionada automáticamente)
+# En desarrollo local: usa variables individuales
+if config('DATABASE_URL', default=None):
+    # Producción (Railway)
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    # Desarrollo local
+    DATABASES = {
+        'default': {
+            'ENGINE': config('DB_ENGINE', default='django.db.backends.postgresql'),
+            'NAME': config('DB_NAME', default='neondb'),
+            'USER': config('DB_USER', default='neondb_owner'),
+            'PASSWORD': config('DB_PASSWORD', default=''),
+            'HOST': config('DB_HOST', default='ep-crimson-leaf-aiy29wx1-pooler.c-4.us-east-1.aws.neon.tech'),
+            'PORT': config('DB_PORT', default='5432'),
+            'OPTIONS': {
+                'sslmode': 'require',
+                'channel_binding': 'require',
+            },
+        }
     }
 }
 # Configuración de Django REST Framework
