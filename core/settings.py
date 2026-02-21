@@ -76,11 +76,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
-# Configuración inteligente de Base de Datos
-# En Railway: usa DATABASE_URL (proporcionada automáticamente)
-# En desarrollo local: usa variables individuales
+# Configuración de la Base de Datos
+# Usa DATABASE_URL en producción (Railway) o variables individuales en local
 if config('DATABASE_URL', default=None):
-    # Producción (Railway)
     DATABASES = {
         'default': dj_database_url.config(
             default=config('DATABASE_URL'),
@@ -89,22 +87,19 @@ if config('DATABASE_URL', default=None):
         )
     }
 else:
-    # Desarrollo local
     DATABASES = {
         'default': {
             'ENGINE': config('DB_ENGINE', default='django.db.backends.postgresql'),
-            'NAME': config('DB_NAME', default='neondb'),
-            'USER': config('DB_USER', default='neondb_owner'),
+            'NAME': config('DB_NAME', default=''),
+            'USER': config('DB_USER', default=''),
             'PASSWORD': config('DB_PASSWORD', default=''),
-            'HOST': config('DB_HOST', default='ep-crimson-leaf-aiy29wx1-pooler.c-4.us-east-1.aws.neon.tech'),
-            'PORT': config('DB_PORT', default='5432'),
+            'HOST': config('DB_HOST', default=''),
+            'PORT': config('DB_PORT', default=''),
             'OPTIONS': {
-                'sslmode': 'require',
-                'channel_binding': 'require',
-            },
+                'sslmode': 'require' if config('DB_HOST', default='') else '',
+            } if config('DB_HOST', default='') else {},
         }
     }
-}
 # Configuración de Django REST Framework
 # Aquí defino la autenticación por defecto (JWT) y permisos (autenticado)
 REST_FRAMEWORK = {
