@@ -156,7 +156,9 @@ El frontend estará disponible en: `http://localhost:5173/`
 ## 🚢 Despliegue en producción
 
 El backend ya está desplegado en Railway. La URL resultante es
-algo como `https://<tu-app>.up.railway.app/`.
+algo como `https://pruebatecnica-production-f2dc.up.railway.app/`.
+Puedes ignorar esa pantalla “Not Found” y utilizar las URLs /api/...
+cuando necesites acceder al backend directamente.
 
 Para que el frontend pueda comunicarse con él y quedar accesible
 públicamente, se utiliza Vercel:
@@ -175,7 +177,7 @@ públicamente, se utiliza Vercel:
 3. **Configurar variables de entorno del backend**
    - En Railway añade/actualiza `CORS_ALLOWED_ORIGINS` para incluir
      la URL de Vercel (por ejemplo
-     `https://your-app.vercel.app`). Puedes usar comas para
+     `https://prueba-tecnica-sooty-six.vercel.app/`). Puedes usar comas para
      varias orígenes.
    - También actualiza `ALLOWED_HOSTS` si quieres restringir más los
      hosts (aunque `pruebatecnica-production-f2dc.up.railway.app`
@@ -189,14 +191,39 @@ públicamente, se utiliza Vercel:
 El proyecto incluye dos usuarios de prueba preconfigurados:
 
 ### Usuario 1
-- **Username:** `demo`
+- **Username:** `prueba`
 - **Password:** `prueba123`
-- **Email:** `demo@example.com`
+- **Email:** `prueba1@gmail.com.com`
 
 ### Usuario 2
 - **Username:** `usuario2`
 - **Password:** `prueba123`
-- **Email:** `usuario2@example.com`
+- **Email:** `usuario2@gmail.com.com`
+
+---
+
+## 🔗 Enlaces públicos (Live demo)
+
+- **Backend (API - Railway):** https://pruebatecnica-production-f2dc.up.railway.app/
+- **Frontend (App - Vercel):** https://prueba-tecnica-sooty-six.vercel.app/
+
+
+Usa estas URLs para revisar la aplicación desplegada. El frontend ya está configurado para usar la API pública mediante la variable `VITE_API_URL`.
+
+## ⚙️ Recomendaciones finales de seguridad y entrega
+
+- En Railway, asegúrate de tener estas variables configuradas en **Production**:
+  - `DATABASE_URL` (ya debe estar presente si la aplicación está online)
+  - `SECRET_KEY` (clave secreta de Django)
+  - `DEBUG=False` (importante: desactivar modo debug en producción)
+  - `CORS_ALLOWED_ORIGINS` con la URL de Vercel (sin barra final), por ejemplo:
+
+```
+https://prueba-tecnica-sooty-six.vercel.app
+```
+
+- Verifica que `ALLOWED_HOSTS` en `core/settings.py` contenga el host de Railway (p. ej. `pruebatecnica-production-f2dc.up.railway.app`) y, si lo necesitas, la URL de Vercel.
+
 
 ### Crear Nuevos Usuarios
 
