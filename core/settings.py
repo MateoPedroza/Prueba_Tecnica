@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-only-for-deve
 
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['pruebatecnica-production-f2dc.up.railway.app',]
 
 
 # Definicion de aplicaciones instaladas
